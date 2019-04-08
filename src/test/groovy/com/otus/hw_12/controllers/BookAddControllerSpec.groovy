@@ -13,8 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 
 @AutoConfigureMockMvc(secure = false)
-@WebMvcTest(controllers = [LibraryController])
-class LibraryControllerSpec extends Specification {
+@WebMvcTest(controllers = [BookAddController])
+class BookAddControllerSpec extends Specification {
 
     @Autowired
     MockMvc mockMvc
@@ -32,19 +32,5 @@ class LibraryControllerSpec extends Specification {
         mockMvc.perform(MockMvcRequestBuilders.get("/library/books/add"))
             .andExpect(status().isOk())
             .andExpect(view().name("book_add_new"))
-    }
-
-    def "fullSearch(Model, String, String, String) returns 200 response"() {
-        expect:
-        mockMvc.perform(MockMvcRequestBuilders.get("/library/books/search/full"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("book_search_result"))
-    }
-
-    def "quickSearch(String, Model) returns 200 response"() {
-        expect:
-        mockMvc.perform(MockMvcRequestBuilders.get("/library/books/search/quick?title="))
-            .andExpect(status().isOk())
-            .andExpect(view().name("book_search_result"))
     }
 }
