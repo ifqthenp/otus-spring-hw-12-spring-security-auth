@@ -75,3 +75,8 @@ INSERT INTO `book_author` VALUES (11, 9);
 INSERT INTO `book_author` VALUES (11, 10);
 INSERT INTO `book_author` VALUES (12, 9);
 INSERT INTO `book_author` VALUES (12, 10);
+
+INSERT INTO `users` (id, username, password, is_acc_non_exp, is_acc_non_locked, is_cred_non_exp, is_enabled)
+VALUES (1, 'admin', '$2a$11$dp4wMyuqYE3KSwIyQmWZFeUb7jCsHAdk7ZhFc0qGw6i5J124imQBi', TRUE, TRUE, TRUE, TRUE);
+INSERT INTO `users` (id, username, password, is_acc_non_exp, is_acc_non_locked, is_cred_non_exp, is_enabled)
+VALUES (2, 'jdoe', '$2a$11$3NO32OV1TGjap3xMpAEjmuiizitWuaSwUYz42aMtlxRliwJ8zm4Sm', TRUE, TRUE, TRUE, TRUE);
