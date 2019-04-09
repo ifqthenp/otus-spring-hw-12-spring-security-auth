@@ -4,6 +4,18 @@ DROP TABLE IF EXISTS `comments`;
 DROP TABLE IF EXISTS `authors`;
 DROP TABLE IF EXISTS `genres`;
 DROP TABLE IF EXISTS `books`;
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users`
+(
+    `id`                BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `username`          VARCHAR(128) NOT NULL UNIQUE,
+    `password`          VARCHAR(256) NOT NULL,
+    `is_acc_non_exp`    BOOLEAN,
+    `is_acc_non_locked` BOOLEAN,
+    `is_cred_non_exp`   BOOLEAN,
+    `is_enabled`        BOOLEAN
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 CREATE TABLE `authors`
 (
