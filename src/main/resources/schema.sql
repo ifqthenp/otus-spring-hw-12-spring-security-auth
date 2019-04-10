@@ -1,73 +1,86 @@
-DROP TABLE IF EXISTS `book_genre`;
-DROP TABLE IF EXISTS `book_author`;
-DROP TABLE IF EXISTS `comments`;
-DROP TABLE IF EXISTS `authors`;
-DROP TABLE IF EXISTS `genres`;
-DROP TABLE IF EXISTS `books`;
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS book_genre;
+DROP TABLE IF EXISTS book_author;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS auth_user_group;
+DROP TABLE IF EXISTS users;
 
-CREATE TABLE `users`
+CREATE TABLE users
 (
-    `id`                BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `username`          VARCHAR(128) NOT NULL UNIQUE,
-    `password`          VARCHAR(256) NOT NULL,
-    `is_acc_non_exp`    BOOLEAN,
-    `is_acc_non_locked` BOOLEAN,
-    `is_cred_non_exp`   BOOLEAN,
-    `is_enabled`        BOOLEAN
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    id                BIGSERIAL PRIMARY KEY,
+    username          VARCHAR(128) NOT NULL UNIQUE,
+    password          VARCHAR(256) NOT NULL,
+    is_acc_non_exp    BOOLEAN,
+    is_acc_non_locked BOOLEAN,
+    is_cred_non_exp   BOOLEAN,
+    is_enabled        BOOLEAN
+);
 
-CREATE TABLE `authors`
+CREATE TABLE auth_user_group
 (
-    `id`         bigint(20) NOT NULL AUTO_INCREMENT,
-    `first_name` varchar(255) DEFAULT NULL,
-    `last_name`  varchar(255) DEFAULT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    auth_user_group_id BIGSERIAL,
+    username           VARCHAR(128) NOT NULL,
+    auth_group         VARCHAR(256) NOT NULL,
+    PRIMARY KEY (auth_user_group_id)
+);
 
-CREATE TABLE `book_author`
+CREATE TABLE authors
 (
-    `book_id`   bigint(20) NOT NULL,
-    `author_id` bigint(20) NOT NULL,
-    PRIMARY KEY (`book_id`, `author_id`),
-    KEY `FKro54jqpth9cqm1899dnuu9lqg` (`author_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    id         BIGSERIAL NOT NULL,
+    first_name varchar(255) DEFAULT NULL,
+    last_name  varchar(255) DEFAULT NULL,
+    PRIMARY KEY (id)
+);
 
-CREATE TABLE `book_genre`
+CREATE TABLE book_author
 (
-    `book_id`  bigint(20) NOT NULL,
-    `genre_id` bigint(20) NOT NULL,
-    PRIMARY KEY (`book_id`, `genre_id`),
-    KEY `FKnkh6m50njl8771p0ll3lylqp2` (`genre_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    book_id   bigint NOT NULL,
+    author_id bigint NOT NULL,
+    PRIMARY KEY (book_id, author_id)
+);
 
-CREATE TABLE `books`
+CREATE TABLE book_genre
 (
-    `id`      bigint(20) NOT NULL AUTO_INCREMENT,
-    `title`   varchar(255) DEFAULT NULL,
-    `written` varchar(255) DEFAULT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    book_id  bigint NOT NULL,
+    genre_id bigint NOT NULL,
+    PRIMARY KEY (book_id, genre_id)
+);
 
-CREATE TABLE `comments`
+CREATE TABLE books
 (
-    `id`         bigint(20) NOT NULL AUTO_INCREMENT,
-    `commentary` varchar(255) DEFAULT NULL,
-    `fk_book_id` bigint(20)   DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `FKj4uh6ap5rhoiandvo2dte065t` (`fk_book_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    id      BIGSERIAL NOT NULL,
+    title   varchar(255) DEFAULT NULL,
+    written varchar(255) DEFAULT NULL,
+    PRIMARY KEY (id)
+);
 
-CREATE TABLE `genres`
+CREATE TABLE comments
 (
-    `id`    bigint(20) NOT NULL AUTO_INCREMENT,
-    `genre` varchar(255) DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `UK_f5jr1xmplevnsodj7nhn12lp5` (`genre`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+    id         BIGSERIAL NOT NULL,
+    commentary varchar(255) DEFAULT NULL,
+    fk_book_id bigint       DEFAULT NULL,
+    PRIMARY KEY (id)
+);
 
-ALTER TABLE `book_author` ADD CONSTRAINT `FK91ierknt446aaqnjl4uxjyls3` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE;
-ALTER TABLE `book_author` ADD CONSTRAINT `FKro54jqpth9cqm1899dnuu9lqg` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE CASCADE;
-ALTER TABLE `book_genre` ADD CONSTRAINT `FKnkh6m50njl8771p0ll3lylqp2` FOREIGN KEY (`genre_id`) REFERENCES `genres` (`id`) ON DELETE CASCADE;
-ALTER TABLE `book_genre` ADD CONSTRAINT `FKq0f88ptislu8lv230mvgonssl` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE;
-ALTER TABLE `comments` ADD CONSTRAINT `FKj4uh6ap5rhoiandvo2dte065t` FOREIGN KEY (`fk_book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE;
+CREATE TABLE genres
+(
+    id    bigserial NOT NULL,
+    genre varchar(255) DEFAULT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE book_author
+    ADD CONSTRAINT FK91ierknt446aaqnjl4uxjyls3 FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE;
+ALTER TABLE book_author
+    ADD CONSTRAINT FKro54jqpth9cqm1899dnuu9lqg FOREIGN KEY (author_id) REFERENCES authors (id) ON DELETE CASCADE;
+ALTER TABLE book_genre
+    ADD CONSTRAINT FKnkh6m50njl8771p0ll3lylqp2 FOREIGN KEY (genre_id) REFERENCES genres (id) ON DELETE CASCADE;
+ALTER TABLE book_genre
+    ADD CONSTRAINT FKq0f88ptislu8lv230mvgonssl FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE;
+ALTER TABLE comments
+    ADD CONSTRAINT FKj4uh6ap5rhoiandvo2dte065t FOREIGN KEY (fk_book_id) REFERENCES books (id) ON DELETE CASCADE;
+ALTER TABLE auth_user_group
+    ADD CONSTRAINT FKd146eeb57479db10096cb59e8 FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE;
+

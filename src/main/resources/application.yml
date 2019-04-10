@@ -4,13 +4,16 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
         show_sql: false
         format_sql: true
   datasource:
     initialization-mode: always
-    url: 'jdbc:mysql://localhost:3306/12-spring-security?useSSL=false'
+    url: 'jdbc:postgresql://localhost:5432/12-spring-security'
     username: 'root'
-    password: ''
+    password: 'example'
 logging:
   level:
     org.hibernate.dialect.function.TemplateRenderer: error
