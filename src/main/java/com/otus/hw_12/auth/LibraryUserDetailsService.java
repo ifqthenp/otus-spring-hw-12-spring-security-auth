@@ -17,10 +17,8 @@ public class LibraryUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final User user = this.userRepository.findByUsername(username);
-        if (null == user) {
-            throw new UsernameNotFoundException("Cannot find username: " + username);
-        }
+        final User user = this.userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("Cannot find username: " + username));
         final List<AuthGroup> authGroups = authGroupRepository.findByUsername(username);
         return new LibraryUserPrincipal(user, authGroups);
     }
