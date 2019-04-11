@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static String[] unrestricted = new String[]{"/", "/home"};
+    private final static String[] unrestricted = new String[]{"/", "/home"};
 
     private final LibraryUserDetailsService userDetailsService;
 
