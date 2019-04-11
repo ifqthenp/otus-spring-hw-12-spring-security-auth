@@ -54,6 +54,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
             .authorizeRequests()
             .mvcMatchers(HttpMethod.GET, unrestricted).permitAll()
+            .mvcMatchers(HttpMethod.GET, "/library/books/add", "/library/books/search/**").hasRole("USER")
+            .mvcMatchers(HttpMethod.POST, "/library/books/add").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
             .httpBasic();
