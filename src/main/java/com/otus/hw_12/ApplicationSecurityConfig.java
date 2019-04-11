@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static String[] mvcPatterns = new String[]{"/", "/home"};
+    private static String[] unrestricted = new String[]{"/", "/home"};
 
     private final LibraryUserDetailsService userDetailsService;
 
@@ -53,7 +53,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-            .mvcMatchers(HttpMethod.GET, mvcPatterns).permitAll()
+            .mvcMatchers(HttpMethod.GET, unrestricted).permitAll()
             .anyRequest().authenticated()
             .and()
             .httpBasic();
