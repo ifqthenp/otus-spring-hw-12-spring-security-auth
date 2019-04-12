@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -44,6 +45,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter impl
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
+    }
+
+    @Bean
+    public SpringSecurityDialect securityDialect() {
+        return new SpringSecurityDialect();
     }
 
     @Override
