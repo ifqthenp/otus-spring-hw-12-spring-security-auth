@@ -51,14 +51,29 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        // @formatter:off
+        http
             .authorizeRequests()
-            .mvcMatchers(HttpMethod.GET, unrestricted).permitAll()
-            .mvcMatchers(HttpMethod.GET, "/library/books/add", "/library/books/search/**").hasRole("USER")
-            .mvcMatchers(HttpMethod.POST, "/library/books/add").hasRole("ADMIN")
-            .anyRequest().authenticated()
-            .and()
-            .httpBasic();
+                .mvcMatchers(HttpMethod.GET, unrestricted).permitAll()
+                .mvcMatchers(HttpMethod.GET, "/library/books/add", "/library/books/search/**").hasRole("USER")
+                .mvcMatchers(HttpMethod.POST, "/library/books/add").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+            .httpBasic()
+                .and()
+            .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/home")
+                .failureUrl("/login?error")
+                .permitAll()
+                .and()
+            .logout()
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .logoutSuccessUrl("/login?logout")
+                .permitAll();
+        // @formatter:on
+    }
     }
 
 }
