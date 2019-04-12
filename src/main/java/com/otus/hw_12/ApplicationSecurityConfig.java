@@ -22,6 +22,7 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private final static String[] unrestricted = new String[]{"/", "/home"};
+    private static final int ENCRYPTION_STRENGTH = 11;
 
     private final LibraryUserDetailsService userDetailsService;
 
@@ -44,7 +45,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter impl
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(11);
+        return new BCryptPasswordEncoder(ENCRYPTION_STRENGTH);
     }
 
     @Bean
