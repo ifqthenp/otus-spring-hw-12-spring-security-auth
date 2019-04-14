@@ -1,17 +1,15 @@
 version: '3.7'
 services:
-  mysqldb:
-    image: 'mysql:latest'
-    container_name: 'mysql-latest'
+  postgres:
+    image: 'postgres:latest'
+    container_name: 'postgres-latest'
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
-      MYSQL_ROOT_PASSWORD: ''
-      MYSQL_DATABASE: '12-spring-security'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'user'
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'example'
+      POSTGRES_DB: '12-spring-security'
     volumes:
-      - 12-spring-security:/var/lib/mysql
+      - 12-spring-security:/var/lib/postgresql/data
 volumes:
   12-spring-security:

@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        show_sql: false
+        format_sql: true
+  datasource:
+    initialization-mode: always
+    url: 'jdbc:postgresql://localhost:5432/12-spring-security'
+    username: 'root'
+    password: 'example'
+logging:
+  level:
+    org.hibernate.dialect.function.TemplateRenderer: error
